@@ -1,0 +1,12 @@
+data/raw/
+*.parquet
+*.log
+!data/samples/*.csv
+!experiments/results/*.csv
+venv/
+__pycache__/
+.env
+*.egg-info
+logs/
+airflow.db
+.ipynb_checkpoints/
