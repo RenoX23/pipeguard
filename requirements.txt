@@ -1,0 +1,28 @@
+# ML and detection
+scikit-learn==1.4.2
+scipy==1.13.0
+river==0.21.0
+
+# Data
+pandas==2.2.2
+numpy==1.26.4
+
+# Database
+psycopg2-binary==2.9.9
+
+# Observability
+prometheus-client==0.20.0
+
+# Baseline comparison
+great-expectations==0.18.12
+
+# Visualization
+matplotlib==3.8.4
+seaborn==0.13.2
+
+# dbt CLI (local)
+dbt-postgres==1.8.0
+
+# Dev tools
+pytest==8.2.0
+black==24.4.2
