@@ -184,7 +184,7 @@ class StructuralCheckOperator(BaseOperator):
             return
 
         engine = create_engine(db_conn)
-        with engine.connect() as conn:
+        with engine.begin() as conn:
             conn.execute(
                 text("""
                     INSERT INTO monitoring.structural_scores
@@ -202,5 +202,4 @@ class StructuralCheckOperator(BaseOperator):
                     'format_v': violations['format_violations']
                 }
             )
-            conn.commit()
         self.log.info(f"Score written to monitoring.structural_scores")
