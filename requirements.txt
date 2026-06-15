@@ -1,4 +1,5 @@
 # ML and detection
+pyarrow==15.0.2
 scikit-learn==1.4.2
 scipy==1.13.0
 river==0.21.0
