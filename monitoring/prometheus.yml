@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'pipeguard'
+    static_configs:
+      - targets: ['airflow-scheduler:8000']

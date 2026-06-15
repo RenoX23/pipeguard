@@ -1,0 +1,79 @@
+version: '3.8'
+
+x-airflow-common: &airflow-common
+  image: apache/airflow:2.9.0
+  environment:
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__CORE__FERNET_KEY: ''
+    PYTHONPATH: /opt/airflow
+    PIPEGUARD_DB_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/pipeguard
+  volumes:
+    - ../dags:/opt/airflow/dags
+    - ../operators:/opt/airflow/operators
+    - ../detectors:/opt/airflow/detectors
+    - ../data:/opt/airflow/data
+    - ../logs:/opt/airflow/logs
+  depends_on:
+    postgres:
+      condition: service_healthy
+  mem_limit: 2g
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 10s
+      retries: 5
+    mem_limit: 512m
+    volumes:
+      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+
+  airflow-init:
+    <<: *airflow-common
+    command: version
+    environment:
+      _AIRFLOW_DB_MIGRATE: 'true'
+      _AIRFLOW_WWW_USER_CREATE: 'true'
+      _AIRFLOW_WWW_USER_USERNAME: admin
+      _AIRFLOW_WWW_USER_PASSWORD: admin
+
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    mem_limit: 1.5g
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ../monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    mem_limit: 512m
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - ../monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ../monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+    mem_limit: 256m
