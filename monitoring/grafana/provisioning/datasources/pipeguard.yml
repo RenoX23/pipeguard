@@ -1,0 +1,14 @@
+apiVersion: 1
+
+datasources:
+  - name: PipeGuard
+    type: postgres
+    url: postgres:5432
+    database: pipeguard
+    user: airflow
+    secureJsonData:
+      password: airflow
+    jsonData:
+      sslmode: disable
+      timescaledb: false
+    isDefault: true

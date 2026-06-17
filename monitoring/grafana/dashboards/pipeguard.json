@@ -1,0 +1,61 @@
+{
+  "title": "PipeGuard — Data Quality Monitor",
+  "uid": "pipeguard-main",
+  "version": 1,
+  "refresh": "30s",
+  "panels": [
+    {
+      "id": 1, "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "title": "Composite Score Over Time",
+      "type": "timeseries",
+      "datasource": "PipeGuard",
+      "targets": [{
+        "rawSql": "SELECT created_at AS time, composite_score, dataset FROM monitoring.semantic_scores ORDER BY created_at",
+        "format": "time_series"
+      }]
+    },
+    {
+      "id": 2, "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "title": "Records by Tier",
+      "type": "piechart",
+      "datasource": "PipeGuard",
+      "targets": [{
+        "rawSql": "SELECT tier, COUNT(*) as count FROM monitoring.semantic_scores GROUP BY tier",
+        "format": "table"
+      }]
+    },
+    {
+      "id": 3, "gridPos": {"h": 8, "w": 24, "x": 0, "y": 8},
+      "title": "Detector Scores Per Run",
+      "type": "table",
+      "datasource": "PipeGuard",
+      "targets": [{
+        "rawSql": "SELECT run_id, dataset, round(if_score::numeric,3) as if_score, round(ks_psi_score::numeric,3) as ks_psi, round(adwin_score::numeric,3) as adwin, round(composite_score::numeric,3) as composite, tier FROM monitoring.semantic_scores ORDER BY created_at DESC LIMIT 20",
+        "format": "table"
+      }]
+    },
+    {
+      "id": 4, "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+      "title": "Structural Scores",
+      "type": "timeseries",
+      "datasource": "PipeGuard",
+      "targets": [{
+        "rawSql": "SELECT created_at AS time, structural_score, dataset FROM monitoring.structural_scores ORDER BY created_at",
+        "format": "time_series"
+      }]
+    },
+    {
+      "id": 5, "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+      "title": "Null Violations Per Run",
+      "type": "bargauge",
+      "datasource": "PipeGuard",
+      "targets": [{
+        "rawSql": "SELECT dataset, SUM(null_violations) as total_null_violations FROM monitoring.structural_scores GROUP BY dataset",
+        "format": "table"
+      }]
+    }
+  ],
+  "schemaVersion": 36,
+  "style": "dark",
+  "timezone": "browser"
+}
