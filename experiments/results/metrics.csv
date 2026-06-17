@@ -1,0 +1,13 @@
+dataset,seed,pg_score_clean,pg_score_anom,pg_detected,pg_false_alarm,ge_detected,ge_false_alarm
+nyc_taxi,42,0.1125,0.3316,1,0,1,0
+nyc_taxi,123,0.1125,0.3303,1,0,1,0
+nyc_taxi,456,0.1125,0.3279,1,0,1,0
+credit_card,42,0.2378,0.4484,1,0,0,0
+credit_card,123,0.2378,0.4468,1,0,0,0
+credit_card,456,0.2378,0.4484,1,0,0,0
+uci_census,42,0.0682,0.3003,1,0,1,0
+uci_census,123,0.0682,0.3025,1,0,1,0
+uci_census,456,0.0682,0.3016,1,0,1,0
+smd,42,0.2567,0.4723,1,0,1,0
+smd,123,0.2567,0.4693,1,0,1,0
+smd,456,0.2567,0.4692,1,0,1,0
