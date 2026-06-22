@@ -1,0 +1,10 @@
+dataset,fraud_pct,seed,pg_row_dr,pg_row_fpr,pg_row_f1,pg_batch_detected,pg_batch_fp,ge_detected,ge_fp
+credit_card,0.05,42,0.904,0.0876,0.5067,1,1,1,0
+credit_card,0.05,123,0.888,0.0802,0.5205,1,1,1,0
+credit_card,0.05,456,0.86,0.0785,0.5131,1,1,1,0
+credit_card,0.1,42,0.9411,0.1731,0.534,1,1,1,0
+credit_card,0.1,123,0.9146,0.1362,0.5788,1,1,1,0
+credit_card,0.1,456,0.9329,0.1404,0.5799,1,1,1,0
+credit_card,0.2,42,0.9451,0.2067,0.5213,1,1,1,0
+credit_card,0.2,123,0.9248,0.151,0.5867,1,1,1,0
+credit_card,0.2,456,0.939,0.1568,0.5844,1,1,1,0
