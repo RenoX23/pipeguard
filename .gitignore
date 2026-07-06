@@ -10,3 +10,4 @@ __pycache__/
 logs/
 airflow.db
 .ipynb_checkpoints/
+dbt_pipeguard/target/
